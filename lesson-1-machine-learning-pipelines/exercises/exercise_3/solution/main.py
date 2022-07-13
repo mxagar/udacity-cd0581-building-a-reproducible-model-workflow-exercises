@@ -4,7 +4,6 @@ import wandb
 import hydra
 from omegaconf import DictConfig
 
-
 # This automatically reads in the configuration
 @hydra.main(config_name='config')
 def go(config: DictConfig):
@@ -24,7 +23,7 @@ def go(config: DictConfig):
             "artifact_name": "iris.csv",
             "artifact_type": "raw_data",
             "artifact_description": "Input data"
-        },
+        }
     )
 
     _ = mlflow.run(
@@ -35,10 +34,8 @@ def go(config: DictConfig):
             "artifact_name": "clean_data.csv",
             "artifact_type": "processed_data",
             "artifact_description": "Cleaned data"
-        },
+        }
     )
-
-
 
 if __name__ == "__main__":
     go()

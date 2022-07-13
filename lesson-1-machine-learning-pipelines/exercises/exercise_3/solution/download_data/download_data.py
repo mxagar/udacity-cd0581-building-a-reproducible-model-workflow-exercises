@@ -14,7 +14,7 @@ logger = logging.getLogger()
 def go(args):
 
     # Derive the base name of the file from the URL
-    basename = pathlib.Path(args.file_url).name.split("?")[0].split("#")[0]
+    basename = pathlib.Path(args.file_url).name.split("?")[0].split("#")[0] # iris.csv
 
     # Download file, streaming so we can download files larger than
     # the available memory. We use a named temporary file that gets
@@ -22,9 +22,11 @@ def go(args):
     # behind and the file gets removed even in case of errors
     logger.info(f"Downloading {args.file_url} ...")
     with tempfile.NamedTemporaryFile(mode='wb+') as fp:
-
+        
         logger.info("Creating run")
+        #with wandb.init(project="exercise_3", job_type="download_data") as run:
         with wandb.init(job_type="download_data") as run:
+            
             # Download the file streaming and write to open temp file
             with requests.get(args.file_url, stream=True) as r:
                 for chunk in r.iter_content(chunk_size=8192):
@@ -45,6 +47,10 @@ def go(args):
 
             logger.info("Logging artifact")
             run.log_artifact(artifact)
+
+            # This makes sure that the artifact is uploaded before the
+            # tempfile is destroyed
+            #artifact.wait()
 
 
 if __name__ == "__main__":
@@ -72,5 +78,7 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-
+    
+    print("------->")
+    
     go(args)
