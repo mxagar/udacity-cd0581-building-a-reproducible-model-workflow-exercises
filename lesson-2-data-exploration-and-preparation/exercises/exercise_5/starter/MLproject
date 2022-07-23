@@ -19,7 +19,7 @@ entry_points:
       artifact_description:
         description: Description for the artifact
         type: str
-        default: cleaned dataset
+        default: Cleaned dataset
 
     command: >-
       python run.py --input_artifact {input_artifact} \

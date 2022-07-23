@@ -31,7 +31,7 @@ def go(args):
     df['text_feature'] = df['title'] + ' ' + df['song_name']
 
     # Persist cleaned dataset
-    df.to_csv("preprocessed_data.csv", sep=',', header=True, index=False)
+    df.to_csv(args.artifact_name, sep=',', header=True, index=False)
 
     logger.info("Creating artifact")
     artifact = wandb.Artifact(
@@ -39,10 +39,15 @@ def go(args):
         type=args.artifact_type,
         description=args.artifact_description,
     )
-    artifact.add_file("preprocessed_data.csv")
+    artifact.add_file(args.artifact_name)
 
     logger.info("Logging artifact")
     run.log_artifact(artifact)
+
+    # Run finish is not necessary here
+    # because it finishes automatically
+    # when the script ends.
+    # In a Jupyter session it is necessary, though.
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
