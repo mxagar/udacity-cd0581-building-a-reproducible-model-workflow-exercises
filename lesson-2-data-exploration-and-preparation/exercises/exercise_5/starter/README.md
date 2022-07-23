@@ -10,7 +10,7 @@ If we didn't have default arguments, we'd need to run
 
 ```bash
 mlflow run . -P input_artifact="exercise_4/genres_mod.parquet:latest" \
-				artifact_name="preprocessed_data.csv" \
-				artifact_type=clean_data
-				artifact_description="Cleaned dataset"
+             -P artifact_name="preprocessed_data.csv" \
+             -P artifact_type=clean_data \
+             -P artifact_description="Cleaned dataset"
 ```
