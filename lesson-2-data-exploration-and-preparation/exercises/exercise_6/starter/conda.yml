@@ -7,4 +7,6 @@ dependencies:
   - pip=20.3.3
   - scikit-learn=0.24.1
   - pip:
-      - wandb==0.10.21
+    - wandb==0.10.21
+    - protobuf==3.20
+    
