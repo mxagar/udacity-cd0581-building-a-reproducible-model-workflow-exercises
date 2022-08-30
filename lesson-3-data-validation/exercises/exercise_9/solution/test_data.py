@@ -1,6 +1,6 @@
 import scipy.stats
 
-
+# Note that we pass the fixtures as arguments!
 def test_kolmogorov_smirnov(data, ks_alpha):
 
     sample1, sample2 = data
