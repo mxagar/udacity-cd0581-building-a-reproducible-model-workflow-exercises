@@ -6,3 +6,4 @@ wandb
 artifacts
 outputs
 .vscode
+multirun
