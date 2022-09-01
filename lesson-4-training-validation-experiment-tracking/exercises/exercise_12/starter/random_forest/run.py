@@ -100,14 +100,28 @@ def export_model(run, pipe, X_val, val_pred, export_artifact):
         # function. Provide the signature computed above ("signature") as well as a few
         # examples (input_example=X_val.iloc[:2]), and use the CLOUDPICKLE serialization
         # format (mlflow.sklearn.SERIALIZATION_FORMAT_CLOUDPICKLE)
+        mlflow.sklearn.save_model(
+            pipe, # our pipeline
+            export_path, # Path to a directory for the produced package
+            serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_CLOUDPICKLE, # default, better cross-system compatibility
+            signature=signature, # input and output schema
+            input_example=X_val.iloc[:2] # the first few examples
+        )
 
         # Then upload the temp_dir directory as an artifact:
         # 1. create a wandb.Artifact instance called "artifact"
         # 2. add the temp directory using .add_dir
         # 3. log the artifact to the run
+        artifact = wandb.Artifact(
+            name="inference_pipeline",
+            type="pipeline", 
+            description="Inference pipeline",
+        )
+        artifact.add_dir(export_path)
+        run.log_artifact(artifact)
 
         # Make sure the artifact is uploaded before the temp dir
-        # gets deleted
+        # gets deleted; this blocks the execution until then
         artifact.wait()
 
 
